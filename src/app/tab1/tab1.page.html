@@ -1,0 +1,55 @@
+<app-header></app-header>
+
+<ion-content [fullscreen]="true">
+  <ion-searchbar (ionInput)="filterTravels($event)"></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let travel of filteredTravels">
+      <ion-label>
+        <h2>Description: {{ travel.description }}</h2>
+        <p>Type: {{ travel.type || 'N/A' }}</p>
+        <p>State: {{ travel.state }}</p>
+        <p>
+          Start At: {{ travel.startAt ? (travel.startAt | date: 'dd-MM-yyyy
+          HH:mm:ss') : 'N/A' }}
+        </p>
+        <p>
+          End At: {{ travel.endAt ? (travel.endAt | date: 'dd-MM-yyyy HH:mm:ss')
+          : 'N/A' }}
+        </p>
+        <p>Locations:</p>
+        <ul>
+          <li *ngFor="let location of travel.locations">
+            <p>Name: {{ location.prop1 }}</p>
+            <p>Description: {{ location.description }}</p>
+          </li>
+        </ul>
+      </ion-label>
+      <div style="display: flex; flex-direction: column">
+        <ion-button
+          [fill]="travel.isFav ? 'solid' : 'outline'"
+          (click)="toogleFav(travel)"
+        >
+          <ion-icon slot="start" name="star"></ion-icon>
+          Star
+        </ion-button>
+        <ion-button fill="outline" (click)="editTravel(travel)">
+          Edit
+          <ion-icon slot="start" name="create"></ion-icon>
+        </ion-button>
+        <ion-button
+          fill="outline"
+          color="danger"
+          (click)="deleteFromList(travel.id)"
+        >
+          Delete
+        </ion-button>
+        <ion-button fill="outline" (click)="showLocations(travel.id)">
+          Show Locations
+        </ion-button>
+        <ion-button fill="outline" (click)="travelComments(travel.id)">
+          Comments
+        </ion-button>
+      </div>
+    </ion-item>
+  </ion-list>
+</ion-content>
